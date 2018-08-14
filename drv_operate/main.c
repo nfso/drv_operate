@@ -4,12 +4,12 @@ NTSTATUS ctchCreate( PDEVICE_OBJECT dev_obj, PIRP irp ) { return STATUS_SUCCESS;
 NTSTATUS ctchClose( PDEVICE_OBJECT dev_obj, PIRP irp ) { return STATUS_SUCCESS; }
 NTSTATUS ctchCtrl( PDEVICE_OBJECT dev_obj, PIRP irp ) { return STATUS_SUCCESS; }
 
-BOOLEAN clean_entry() {
+BOOLEAN clean_entry( ) {
 	ULONG bytes = NULL;
 	NTSTATUS status = ZwQuerySystemInformation( SystemModuleInformation, NULL, bytes, &bytes );
 	DbgPrint( "clean_entry(): Initializing\n" );
 
-	if (!bytes) {
+	if ( !bytes ) {
 		DbgPrint( "clean_entry(): ZwQuerySystemInformation (1) failed, status code: 0x%X\n", status );
 		return FALSE;
 	}
@@ -101,7 +101,7 @@ NTSTATUS drv_init( PDRIVER_OBJECT drv_obj, PUNICODE_STRING rgstry_path ) {
 	return cr_status;
 }
 
-NTSTATUS drv_entry(PDRIVER_OBJECT drv_obj, PUNICODE_STRING rgstry_path) {
+NTSTATUS drv_entry( PDRIVER_OBJECT drv_obj, PUNICODE_STRING rgstry_path ) {
 	DbgPrint( "drv_entry(.., ..): False Entry Loading\n" );
 	RtlInitUnicodeString( &drv_name, L"\\Driver\\DrvOperate" );
 	NTSTATUS status = IoCreateDriver( &drv_name, &drv_init );
